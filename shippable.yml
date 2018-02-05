@@ -12,15 +12,9 @@ build:
     image_tag: prod
     pull: true
   ci:
-    - echo "here_15_9_8"
-    - echo $API_KEY
-    - echo $API_URL
-    - echo $WWW_KEY
-    - printenv
-    - echo "5"
+    - shipctl post_resource_state img-1 versionName "build_"$BUILD_NUMBER
+    - shipctl post_resource_state img-2 versionName "build_"$BUILD_NUMBER 
 #    - echo "versionName=$BRANCH.$BUILD_NUMBER" >> $JOB_STATE/nginx-image.env
-#    - here_askask_3
-#    - sleep 40
       
 #integrations:
 #  notifications:
