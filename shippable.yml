@@ -12,9 +12,11 @@ build:
     image_tag: prod
     pull: true
   ci:
-    - shipctl post_resource_state img-1 versionName "build_"$BUILD_NUMBER
-    - shipctl post_resource_state img-2 versionName "build_"$BUILD_NUMBER 
-#    - echo "versionName=$BRANCH.$BUILD_NUMBER" >> $JOB_STATE/nginx-image.env
+    - echo "versionName=branch_$BRANCH.$BUILD_NUMBER" >> $JOB_STATE/img-1.env
+    - echo "versionName=branch_$BRANCH.$BUILD_NUMBER" >> $JOB_STATE/img-2.env    
+    #- shipctl post_resource_state img-1 versionName "build_"$BUILD_NUMBER
+    #- shipctl post_resource_state img-2 versionName "build_"$BUILD_NUMBER 
+    #- echo "versionName=$BRANCH.$BUILD_NUMBER" >> $JOB_STATE/nginx-image.env
       
 #integrations:
 #  notifications:
