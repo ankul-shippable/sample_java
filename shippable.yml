@@ -17,14 +17,6 @@ resources:
     initialVersion:
       fileName: shippable.yml
       fileDtTm: random_value
- 
-  - name: image_res
-    type: image
-    imageName: "library/nginx"
-    configuration:
-      integrationName: docker-int
-    initialVersion:
-      imageTag: latest
 
 pipelines:
   - name: pipe_1
@@ -37,17 +29,12 @@ pipelines:
           affinityGroup: test_group 
         setup:
           runtime: onHost
-        requires:
-          integrations:
-            - docker-int
-          resources:
-            - image_res
         triggeredBy:
           resources:
             - gitrepo_res 
         execution:
           onExecute:
-            - echo "executing..."
+            - echo "executing step1_A..."
         outputResources:
           - file_res
 
@@ -58,12 +45,12 @@ pipelines:
         setup:
           runtime: onHost
         triggeredBy:
-          resources:
-            - file_res 
+          steps:
+            - step1_A
         execution:
           onExecute:
-            - echo "executing..."
-
+            - echo "executing step1_B..."
+            
       - name: step1_C
         type: bash
         configuration:
@@ -72,7 +59,77 @@ pipelines:
           runtime: onHost
         triggeredBy:
           steps:
-            - step1_A 
+            - step1_A
         execution:
           onExecute:
-            - echo "executing..."
+            - echo "executing step1_C..."           
+
+      - name: step1_D
+        type: bash
+        configuration:
+          affinityGroup: test_group      
+        setup:
+          runtime: onHost
+        triggeredBy:
+          resources:
+            - file_res 
+        execution:
+          onExecute:
+            - echo "executing step1_D..."
+
+      - name: step1_E
+        type: bash
+        configuration:
+          affinityGroup: test_group 
+        setup:
+          runtime: onHost
+        triggeredBy:
+          resources:
+            - gitrepo_res 
+        execution:
+          onExecute:
+            - echo "executing step1_E..."
+
+      - name: step1_F
+        type: bash
+        configuration:
+          affinityGroup: test_group      
+        setup:
+          runtime: onHost
+        triggeredBy:
+          steps:
+            - step1_E 
+        execution:
+          onExecute:
+            - echo "executing step1_F..."
+            
+            
+  - name: pipe_2
+    setup:
+      runtime: onHost
+    steps:
+      - name: step2_A
+        type: bash
+        configuration:
+          affinityGroup: test_group 
+        setup:
+          runtime: onHost
+        triggeredBy:
+          resources:
+            - gitrepo_res 
+        execution:
+          onExecute:
+            - echo "executing step2_A..."  
+            
+      - name: step2_B
+        type: bash
+        configuration:
+          affinityGroup: test_group 
+        setup:
+          runtime: onHost
+        triggeredBy:
+          steps:
+            - step2_A 
+        execution:
+          onExecute:
+            - echo "executing step2_B..."              
