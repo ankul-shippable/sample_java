@@ -116,7 +116,7 @@ pipelines:
           runtime: onHost
         triggeredBy:
           resources:
-            - gitrepo_res 
+            - file_res 
         execution:
           onExecute:
             - echo "executing step2_A..."  
